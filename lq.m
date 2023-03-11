@@ -1,6 +1,9 @@
 % Defining a function such L,Q will be returned  
 function [L, Q] = lq(matrixA)
 % Setting n for when we do our function
+%Orthogonal factorisation of a dense rectangular matrix A: A=L*Q
+%Input: mxn matrix A (m<n)
+%Output: mxn matrix L (lower triangular), nxn matrix Q (orthogonal)
 [~, n] = size(matrixA);
 % Set Q and L
 Q = eye(n);
