@@ -4,4 +4,6 @@
 lslu.m can be used to implement the LU Factorisation method for solving the Least Squares problem for m>n.
 Inputs and outputs are described in the code.
 
-lq.m is used to compute the QL factorisation of a general dense matrix A. 
+lq.m is used to compute the QL factorisation of a general dense matrix A.
+
+ipowergen.m will solve a linear system with Av=lambda*Mv, a tolerance threshold and max number of iterations
