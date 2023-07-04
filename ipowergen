@@ -1,0 +1,39 @@
+function [v,lam,res,k] = ipowergen(A,M,tol,kmax,v)
+% function [lam, v, k, e, res] = ipowergen(A, M, v, kmax, tol)
+% Inputs: Linear system with Av=lambda*Mv, a tolerance threshold and max
+% number of iterations
+% Outputs: eigenvector v that satisfies the orthogonality relations as seen in
+% Q23 Example Week 4, residual, number of iterations and a corresponding
+% eigenvalue
+
+n = length(A);
+if ~exist('v'),v=randn(n,1);end
+if ~exist('kmax'),kmax=n;end
+if ~exist('tol'),tol=1e-6;end
+
+%Initialise our values found in Q1, beta and alpha randomly chosen
+beta =3;
+alpha=0.2;
+v1=ones(n,1);
+e=beta*(M*v1);
+
+%Designing the matrices that we have for the GEVP'
+A_hat= [A e;e' 0];
+M_hat=[M zeros(n,1);zeros(1,n) alpha];
+u=[v;0];
+%Designing the preconditioner P as seen in Q1(c)
+P_hat = A + 1e-3 * speye(size(A));
+P_hat(n+1,n+1)=1e-3;
+
+u=u/sqrt(u'*M_hat*u);
+k = 0; res = 1;
+while k < kmax & res > tol
+    k = k+1;
+    [u,~]=symmlq(A_hat,M_hat*u,tol,kmax,P_hat);
+    u=u/sqrt(u'*M_hat*u);
+    lam=u'*A_hat*u;
+    res=norm(A_hat*u-lam*M_hat*u);
+end
+v=u;
+v(n+1,:)=[];
+end
